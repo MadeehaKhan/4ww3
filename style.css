@@ -1,0 +1,269 @@
+body {
+	/*background-color: rgba(250,250,230,1);*/
+	background-color: white;
+	font-family: Verdana, Geneva, sans-serif; 
+}
+
+/* MENU */
+/*unordered list format for the menu*/
+ul.navigation{
+  list-style: none;
+  margin: 0 2px;
+  padding: 15px 0;
+  /*allows the menu items to be evenly spaced across the menu*/
+  display: flex;
+  justify-content: space-around;
+  background-color: #333;
+}
+
+/*each list item in the menu*/
+li a {
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/*change menu item when hover over it*/
+li a:hover {
+    background-color:  #ddd;;
+}
+
+
+/* BODY OF PAGE */
+/*header (title) of each page*/
+.header h1 {
+	color: white;
+	border: 2px solid #000033;
+	background-color: rgba(0, 0, 102,1);
+	text-align: center;
+	margin: 10px auto;
+	padding: 25px 0;
+	font-size: 45px; 
+	width: 75%;
+	/*display:inline;*/
+}
+
+h2 {
+	text-align: center;
+}
+
+.header h2 {
+	font-size: 30px;
+	color: rgba(0, 0, 102,1);
+}
+
+/*description of each page*/
+p {
+	font-size: 20px;
+	text-align: center;
+	padding-bottom: 25px;
+}
+
+p.desc {
+	font-size: 18px;
+}
+
+.details {
+	background-color: rgba(242,242,242,1);
+	width:40%;
+	margin: 0 auto;
+	border: none;
+	border-radius: 50px;
+	margin-top: 30px;
+	padding-top: 5px;
+}
+
+/* FORMS --> used in Submit, Register, and Search pages*/
+form {
+	width: 600px;
+	margin: 0 auto;
+	font-size: 18px;
+}
+
+/* INPUTS */
+/*applies to all the input types*/
+input {
+	width: 225px;
+	height: 40px; 
+	font-size: 18px;
+	/*to center input items pn page*/
+	display: block;
+	margin: 5px auto;
+	max-width: 500px;
+
+	outline:none;
+	border: 1px solid #f2f2f2;
+	border-radius: 10px;
+	padding-left: 10px;
+}
+
+/*want to make the decription box in the submission page larger than others*/
+input.desc {
+	height: 100px;
+}
+
+/* the checkboxes to pick which kind of vehicle needs to be registered*/
+/*a lot of this is to fix how funny it looked*/
+input[type=checkbox] {
+	/*halve the size of the boxes*/
+  -moz-transform: scale(0.5); /* FF */
+  -webkit-transform: scale(0.5); /* Safari and Chrome */
+  -o-transform: scale(0.5); /* Opera */
+}
+
+/*line up the label and box*/
+.inline-field input,
+.inline-field label {
+  display: inline-block;
+  margin-bottom: 0; 
+  vertical-align: middle; 
+}
+
+/*move the text closer to the box*/
+.inline-field label {
+	margin-left: -80px;
+}
+
+input[type=number] {
+	width: 127px;
+}
+
+/*only for submit button*/
+input[type=submit] {
+	background-color: #303036;
+	width: 100%;
+	padding: 4px 2px;
+	color: white;
+	/*get the pointer hand thing when you hover over a button */
+	cursor: pointer;
+	border: none;
+	/*this way the submit button will always be handy in case you need to scroll*/
+	position: sticky;
+}
+
+input[type=submit]:hover {
+	background-color: rgb(230, 230, 255);
+}
+
+/* TABLES -> used in Parking and Results pages */
+/**/
+table {
+	border-collapse: collapse;
+	padding-top: 25px;
+	max-width: 90%;
+	margin: 0 auto;
+}
+
+/*make striped table*/
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+/*only for header and data*/
+th, td {
+	padding: 15px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+/*only for header*/
+th {
+	background-color: #676775;
+	color: white;
+}
+
+/*make the row a different color when you hover over it, to represent it being a link*/
+tr:hover {
+	color: white;
+	background-color: #ddd;
+}
+
+
+/* IMAGES --> used in Parking and Results pages*/
+img {
+	display: block;
+	margin: 25px auto;
+	border: 1px solid #333;
+	max-width: 950px;
+}
+
+.header img {
+	border: none;
+	outline: none;
+	padding: none;
+	position: absolute;
+	width: 130px;
+	left: 725px;
+	/*top: 75px;*/
+	margin: 10px auto;
+}
+
+footer {
+	padding: 20px 0 5px 0;
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 100%;
+	background-color: #f2f2f2;
+	text-align: center;
+	font-size: 18px;
+	display:block;
+}
+
+
+
+
+/* RESPONSIVE */
+/*make her look good in mobile, tablet, etc.*/
+@media (max-width: 500px) {
+	.navigation {
+		width: 100%;
+	}
+
+	li {
+		padding:0;
+	}
+
+	h1 {
+		font-size: 25px;
+        padding: 5px;
+        width: 100%;
+      }
+      
+    p {
+    	font-size: 15px;
+      }
+
+    form {
+    	width: 100%;
+    } 
+
+    input {
+    	font-size: 15px;
+    }
+
+    .details {
+    	width: 100%;
+    	font-size: 13px;
+    }
+
+    p.desc {
+    	font-size: 14px;
+    }
+
+    img {
+    	width: auto;
+	height: 100%;
+    }
+
+    table {
+    	width: 100%;
+    	font-size: 15px;
+    }
+
+    h2 {
+    	font-size: 20px;
+    }
+    }
+
+
