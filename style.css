@@ -146,6 +146,10 @@ input[type=submit]:hover {
 	background-color: rgb(230, 230, 255);
 }
 
+input:invalid { 
+    border: 2px solid red;
+}
+
 /* TABLES -> used in Parking and Results pages */
 /**/
 table {
@@ -199,6 +203,16 @@ img {
 	margin: 10px auto;
 }
 
+#map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
 footer {
 	padding: 20px 0 5px 0;
 	width: 100%;
@@ -210,7 +224,25 @@ footer {
 	display:block;
 }
 
+.button {
+	display: block;
+	width: 50%;
+	margin: 0 auto;
+	background-color: #303036;
+	padding: 4px 2px;
+	color: white;
+	/*get the pointer hand thing when you hover over a button */
+	cursor: pointer;
+	border: none;
+	border-radius: 10px;
+	height: 40px; 
+	font-size: 18px;
+	margin: 5px auto;
+	max-width: 500px;
 
+	outline:none;
+	margin-bottom: 10px;
+}
 
 
 /* RESPONSIVE */

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="validate.js"></script>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>Register</title>
@@ -24,19 +25,19 @@
 
 <p>Fill out the following to create an account:</p>
 
-<form class="register">
+<form class="register" name="registerForm" onsubmit="return validate(this);" method="post">
 <!--Your registration page should include several, at least 4,different HTML form elements, including text boxes and check boxes or radio items, at least one of which is an “HTML5” form element such as “type=email” or “type=search” or “type=date”-->
 	<strong>Personal data</strong> <br>
-		<input type="text" placeholder="First name">
-		<input type="text" placeholder="Last name">
-		<input type="email" placeholder="E-mail">
-		<input type="tel" placeholder="Phone #">
+		<input type="text" name="fname" placeholder="First name" required>
+		<input type="text" name="lname" placeholder="Last name" required>
+		<input type="email" name="mail" placeholder="E-mail" required>
+		<input type="tel" name="num" placeholder="Phone #" required>
 <!-- like a lot of websites, the user can enter a password once they hit submit, because it didn't look good when i added it to this page -->
 
 	<br><br>
 	<strong>Vehicle data (optional)</strong>
 		<br>
-		Number of vehicles to be registered : <input type="number" placeholder="# of vehicles"> 
+		Number of vehicles to be registered : <input type="number" name="vnum" placeholder="# of vehicles"> 
 		Type of vehicle(s) <br>
 		<div class="inline-field">
  			 <input type="checkbox" id="checkbox1">

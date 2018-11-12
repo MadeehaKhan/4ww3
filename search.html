@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<script src="validate.js"></script>
+<script src="location.js"></script>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>Search</title>
@@ -26,15 +29,24 @@
 
 <p>You can enter a distance, a price, and a rating to search for a parking space:</p>
 
+<p id="frm"> </p>
+
+<button class="button" onclick="getLocation()">Where Am I?</button>
+<div id="map" style="width:100%;height:350px" align="center"></div>
+ <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkM0uxbCtFPQEwn5yFK39tGjbUQYC0vvA
+&callback=initMap">
+    </script>
+
 <!--form to search for parking spaces-->
-<form>
+<form onsubmit="return validateSearch(this);" method="post">
 <!-- add a button to tell where the user is and then the stuff below 
 	want a script that will say onClick run position script and locate the user -->
-  <input type="text" class="search" placeholder ="Distance">
+  <input type="text" name="dist" class="search" placeholder ="Distance (km)">
   <br>
-  <input type="text" class="search" placeholder="Price">
+  <input type="text" name="price" class="search" placeholder="Price ($/hr)">
  <br>
-  <input type="text" class="search" placeholder="Rating">
+  <input type="text" name="rating" class="search" placeholder="Rating (1-5)" pattern="[0-5]">
   <br>
   <input type="submit"  value="Submit">
 </form>

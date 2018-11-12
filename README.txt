@@ -1,9 +1,6 @@
-Madeeha Khan
+khanm57
 1412644
 
-I did not link the results page in the main (search.html) page or any of the other pages because there was no elegant way to do it that also fit into the logical layout of the site. The only way to get to that page is to open the html document in a browser.
+url: khanm57.comp4ww3.com
 
-Also, I added an About and Contact page, but they just link back to the Search page as they are not populated yet, and are just dummy pages until I have real content for them, or decide to change them to fit future requirements.
-
-
-
+I did not include the results page in the menu for the website, as that is not how it would happen on a real site. So the only way to display that file s to go to the page directly through the URL/zip file.

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="validate.js"></script>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="style.css">
 <title>Submission</title>
@@ -25,12 +26,12 @@
 <p>Enter the required details below: <br> The name of the spot, a description, the location as a pair of latitude, longitude coordinates. <br> Optionally, you can also add an image of the parking spot </p>
 
 <!-- name of the spot, a description, and its location as a pair  of  latitude-longitude  coordinates.The  form  should  also  allow ownersto upload an image for the parking service -->
-<form>
-  <input type="text" placeholder="Name">
+<form onsubmit="return validateS(this);" method="post">
+  <input type="text" name="name" placeholder="Name" required>
   <br>
-  <input type="text" class="desc" placeholder="Description">
+  <input type="text" name="desc" class="desc" placeholder="Description" required>
   <br>
-  <input type="text" placeholder="Latitude, Longitude" >
+  <input type="text" name="place" placeholder="Latitude, Longitude" pattern="[0-9]{3,}\.[0-9]+\,[0-9]{3,}\.[0-9]+" required>
   <br>
   <input type="file" name="pic" accept="image/*">
   <br>
