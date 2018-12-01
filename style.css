@@ -83,11 +83,12 @@ form {
 
 /* INPUTS */
 /*applies to all the input types*/
-input, select {
+/*want select to look choesive with this as well*/
+input{
 	width: 225px;
 	height: 40px; 
 	font-size: 18px;
-	/*to center input items pn page*/
+	/*to center input items on page*/
 	display: block;
 	margin: 5px auto;
 	max-width: 500px;
@@ -97,6 +98,22 @@ input, select {
 	border-radius: 10px;
 	padding-left: 10px;
 }
+
+select {
+        width: 225px;
+        height: 40px;
+        font-size: 18px;
+        /*to center select items on page*/
+        display: block;
+        margin: 5px auto;
+        max-width: 500px;
+
+        outline:none;
+        border: 1px solid #f2f2f2;
+        border-radius: 10px;
+        padding-left: 10px;
+}
+
 
 /*want to make the decription box in the submission page larger than others*/
 input.desc {
@@ -195,7 +212,6 @@ img {
 .header img {
 	border: none;
 	outline: none;
-	padding: none;
 	position: absolute;
 	width: 130px;
 	left: 725px;
