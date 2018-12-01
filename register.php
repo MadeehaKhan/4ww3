@@ -42,72 +42,32 @@ if($link === false){
 ?>
 
 <?php
-
-
-<p>Fill out the following to create an account:</p>
-
-<div class="wrapper">
-	<form class="register" name="registerForm" onsubmit="return validate(this);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-<!--Your registration page should include several, at least 4,different HTML form elements, including text boxes and check boxes or radio items, at least one of which is an “HTML5” form element such as “type=email” or “type=search” or “type=date”-->
-		<strong>Personal data</strong> <br>
-			<input type="text" name="fname" placeholder="First name"  required>
-			<input type="text" name="lname" placeholder="Last name" required>
-			<input type="email" name="mail" placeholder="E-mail" required value="<?php echo $username; ?>">
-			<input type="tel" name="num" placeholder="Phone #" required>
-			<input type="password" name="password" class="form-control" value="<?php echo $password; ?>" required>
-            <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>" required>
-</div>            
-
-	<br><br>
-	<strong>Vehicle data (optional)</strong>
-		<br>
-		Number of vehicles to be registered : <input type="number" name="vnum" placeholder="# of vehicles"> 
-		Type of vehicle(s) <br>
-		<div class="inline-field">
- 			 <input type="checkbox" id="checkbox1">
- 			 <label for="checkbox1">Car</label>
- 			 <input type="checkbox" id="checkbox2">
- 			 <label for="checkbox2">Other</label>
-		</div>
-<!--
-<input type="checkbox" name="vehicle1" value="Car"> Car
-<br>
-<input type="checkbox" name="vehicle2" value="Other"> Other
--->
-	<br><br>
-	<input type="submit" value="Submit">
-</form>
-
-<br>
-<p><strong> To submit a parking space, sign in and go to the <a href="submit.html">Submit page</a>.</strong></p>
-
-<?php
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
-
+ 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+ 
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
     } else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
-
+        
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "s", $param_username);
-
+            
             // Set parameters
             $param_username = trim($_POST["username"]);
-
+            
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 /* store result */
                 mysqli_stmt_store_result($stmt);
-
+                
                 if(mysqli_stmt_num_rows($stmt) == 1){
                     $username_err = "This username is already taken.";
                 } else{
@@ -117,14 +77,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
-
+         
         // Close statement
         mysqli_stmt_close($stmt);
     }
-
+    
     // Validate password
     if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";
+        $password_err = "Please enter a password.";     
     } elseif(strlen(trim($_POST["password"])) < 6){
         $password_err = "Password must have atleast 6 characters.";
     } else{
@@ -139,7 +99,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty($password_err) && ($password != $confirm_password)){
             $confirm_password_err = "Password did not match.";
         }
-// Check input errors before inserting in database
+    }
+    
+    // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
@@ -170,6 +132,49 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($link);
 }
 ?>
+ 
+
+
+<p>Fill out the following to create an account:</p>
+
+<div class="wrapper">
+	<form class="register" name="registerForm" onsubmit="return validate(this);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  method="post" >
+		<strong>Personal data</strong> <br>
+			<input type="text" name="fname" placeholder="First name"  required>
+			<input type="text" name="lname" placeholder="Last name" required>
+			<input type="email" name="mail" placeholder="E-mail" value="<?php echo $username; ?>" required> 
+			<input type="tel" name="num" placeholder="Phone #" required>
+			<input type="password" name="password" placeholder="Password"  class="form-control" value="<?php echo $password; ?>" required>
+            		<input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" value="<?php echo $confirm_password; ?>" required>
+            
+
+	<br><br>
+	<strong>Vehicle data (optional)</strong>
+		<br>
+		Number of vehicles to be registered : <input type="number" name="vnum" placeholder="# of vehicles"> 
+		Type of vehicle(s) <br>
+		<div class="inline-field">
+ 			 <input type="checkbox" id="checkbox1">
+ 			 <label for="checkbox1">Car</label>
+ 			 <input type="checkbox" id="checkbox2">
+ 			 <label for="checkbox2">Other</label>
+		</div>
+
+
+<!--
+<input type="checkbox" name="vehicle1" value="Car"> Car
+<br>
+<input type="checkbox" name="vehicle2" value="Other"> Other
+-->
+	<br><br>
+	<input type="submit" value="Submit">
+</div>
+</form>
+
+<br>
+<p><strong> To submit a parking space, sign in and go to the <a href="submit.html">Submit page</a>.</strong></p>
+
+
 
 <footer>
   Posted by: Madeeha Khan<br>
