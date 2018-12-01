@@ -46,14 +46,17 @@ if($link === false){
 
 <p>Fill out the following to create an account:</p>
 
-<form class="register" name="registerForm" onsubmit="return validate(this);" method="post">
+<div class="wrapper">
+	<form class="register" name="registerForm" onsubmit="return validate(this);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 <!--Your registration page should include several, at least 4,different HTML form elements, including text boxes and check boxes or radio items, at least one of which is an “HTML5” form element such as “type=email” or “type=search” or “type=date”-->
-	<strong>Personal data</strong> <br>
-		<input type="text" name="fname" placeholder="First name" required>
-		<input type="text" name="lname" placeholder="Last name" required>
-		<input type="email" name="mail" placeholder="E-mail" required>
-		<input type="tel" name="num" placeholder="Phone #" required>
-<!-- like a lot of websites, the user can enter a password once they hit submit, because it didnt look good when i added it to this page -->
+		<strong>Personal data</strong> <br>
+			<input type="text" name="fname" placeholder="First name"  required>
+			<input type="text" name="lname" placeholder="Last name" required>
+			<input type="email" name="mail" placeholder="E-mail" required value="<?php echo $username; ?>">
+			<input type="tel" name="num" placeholder="Phone #" required>
+			<input type="password" name="password" class="form-control" value="<?php echo $password; ?>" required>
+            <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>" required>
+</div>            
 
 	<br><br>
 	<strong>Vehicle data (optional)</strong>
@@ -78,6 +81,7 @@ if($link === false){
 <br>
 <p><strong> To submit a parking space, sign in and go to the <a href="submit.html">Submit page</a>.</strong></p>
 
+<?php
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
@@ -135,7 +139,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty($password_err) && ($password != $confirm_password)){
             $confirm_password_err = "Password did not match.";
         }
-
+// Check input errors before inserting in database
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+        
+        // Prepare an insert statement
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+         
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+            
+            // Set parameters
+            $param_username = $username;
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                // Redirect to login page
+                header("location: login.php");
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
+         
+        // Close statement
+        mysqli_stmt_close($stmt);
+    }
+    
+    // Close connection
+    mysqli_close($link);
+}
+?>
 
 <footer>
   Posted by: Madeeha Khan<br>
