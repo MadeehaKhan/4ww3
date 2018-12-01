@@ -40,21 +40,11 @@ if ( isset( $_SESSION['id'] ) ) {
 }
 ?>
 
-<div class="wrapper">
-        <h2>Login</h2>
-        <p>Log in to access the full features of the site:</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                <input type="text" name="username" placeholder="Username (e-mail)" class="form-control" value="<?php echo $username; ?>" required >
-               
-                <input type="password" name="password" placeholder="Password" class="form-control" required >
-	    <div class="form-group">
-		<br>
-                <input type="submit" class="btn btn-primary" value="Login">
-            </div>
-            <p>If you don't have an account, you can register now! <a href="register.php">Registration page</a>.</p>
-        </form>
-    </div>
+<h2 style="color:"> You've sucessfully signed in! <\h2>
+<p> Now you can submit your own parking spaces at <a href="/submission.php">our submit page!</a></p>
 
+
+<button onclick="window.location.href='logout.php'">Log Out of Your Account</button>
     
 
 </body>
