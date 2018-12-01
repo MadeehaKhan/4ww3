@@ -83,7 +83,7 @@ form {
 
 /* INPUTS */
 /*applies to all the input types*/
-input {
+input, select {
 	width: 225px;
 	height: 40px; 
 	font-size: 18px;

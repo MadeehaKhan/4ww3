@@ -27,23 +27,33 @@
 	<h1>PARKY</h1>
 </div>
 
-<p>You can enter a distance, a price, and a rating to search for a parking space:</p>
+<p>You can enter the name of a sparking spot, a distance, a price, and a rating to search for a parking space:</p>
 
 <p id="frm"> </p>
 
 <button class="button" id="locateMe" onclick="getLocation()">Where Am I?</button>
 <input type="text" name="longitude" id="geoLongitude" placeholder="Longitude">
 <input type="text" name="latitude" id="geoLatitude" placeholder="Latitude">
+<br>
 
 <!--form to search for parking spaces-->
 <form onsubmit="return validateSearch(this);" method="post">
+<hr>
 <!-- add a button to tell where the user is and then the stuff below 
 	want a script that will say onClick run position script and locate the user -->
+  <input type="text" name="nm" class="search" placeholder ="Name of parking spot">
+  <br>
   <input type="text" name="dist" class="search" placeholder ="Distance (km)">
   <br>
   <input type="text" name="price" class="search" placeholder="Price ($/hr)">
  <br>
-  <input type="text" name="rating" class="search" placeholder="Rating (1-5)" pattern="[0-5]">
+  <select name="Rating">
+  	<option value="1">1 star</option>
+  	<option value="2">2 stars</option>
+  	<option value="3">3 stars</option>
+  	<option value="4">4 stars</option>
+  	<option value="5">5 stars</option>
+</select>
   <br>
   <input type="submit"  value="Submit">
 </form>
