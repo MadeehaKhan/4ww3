@@ -24,24 +24,12 @@
 	<h1>PARKY</h1>
 </div>
 
-<?php
-/* Database credentials. Assuming you are running MySQL
-server with default setting (user 'root' with no password) */
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'khanm57');
-define('DB_PASSWORD', 'test');
-define('DB_NAME', 'comp4ww3');
 
-try{
-    $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
-    // Set the PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e){
-    die("ERROR: Could not connect. " . $e->getMessage());
-}
-?>
 
 <?php
+//use access file
+require_once "access.php";
+
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $confirm_password_err = "";
@@ -112,7 +100,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Redirect to login page
-                header("location: login.php");
+                header("location: register.php");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -136,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		<strong>Personal data</strong> <br>
 			<input type="text" name="fname" placeholder="First name"  required>
 			<input type="text" name="lname" placeholder="Last name" required>
-			<input type="email" name="mail" placeholder="E-mail" value="<?php echo $username; ?>" required> 
+			<input type="email" name="username" placeholder="E-mail" value="<?php echo $username; ?>" required> 
 			<input type="tel" name="num" placeholder="Phone #" required>
 			<input type="password" name="password" placeholder="Password"  class="form-control" value="<?php echo $password; ?>" required>
             		<input type="password" name="confirm_password" placeholder="Confirm Password" class="form-control" value="<?php echo $confirm_password; ?>" required>
