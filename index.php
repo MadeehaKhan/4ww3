@@ -33,7 +33,7 @@ session_start();
  
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: welcome.php");
+    header("location: acct.php");
     exit;
 }
  
@@ -84,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to welcome page
-                            header("location: welcome.php");
+                            header("location: search.html");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
@@ -114,11 +114,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <input type="text" name="username" placeholder="Username (e-mail)" class="form-control" value="<?php echo $username; ?>" required >
                
-                <input type="password" name="password" plaeholder="Password" class="form-control" required >
-            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" class="form-control" required >
+	    <div class="form-group">
+		<br>
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>If you don't have an account, you can register now!<a href="register.php">Registration page</a>.</p>
+            <p>If you don't have an account, you can register now! <a href="register.php">Registration page</a>.</p>
         </form>
     </div>
 
