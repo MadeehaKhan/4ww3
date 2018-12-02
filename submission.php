@@ -24,15 +24,12 @@ if ( isset( $_SESSION['id'] ) ) {
 }
 ?>
 
-
 <ul class="navigation">
-  <li><a href="index.html">Home</a></li>
+  <li><a href="index.php">Home</a></li>
   <li><a href="search.html">Search</a></li>
-  <li>  <a href="register.html">Register</a></li>
-  <li>  <a href="submission.html">Submit</a></li>
-  <!-- Don't work yet -->
-  <li><a href="search.html">About</a></li>
-
+  <li><a href="register.html">Register</a></li>
+  <li><a href="submission.php">Submit</a></li>
+  <li><a href="acct.php">My Account</a></li>
 </ul>
 
 <div class="header">
@@ -42,104 +39,58 @@ if ( isset( $_SESSION['id'] ) ) {
 
 <!-- php code to add the parking space to the database -->
 <?php
+
 //use access file
 require_once "access.php";
 
-// Define variables and initialize with empty values
-/*$username = $password = $confirm_password = "";
-$confirm_password_err = "";
- */
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
-    // Validate username
-    
-        // Prepare a select statement
-        /*$sql = "SELECT id FROM users WHERE username = :username";
+  //prepare variables
+  $name = trim($_POST["name"]);
+  $descr = trim($_POST["descr"]);
+  $fee = trim($_POST["fee"]);
+  $longitude=trim($_POST["longitude"]);
+  $latitude=trim($_POST["latitude"]);
+  $image=trim($_POST["image"]);
+
         
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
-            
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                if($stmt->rowCount() == 1){
-                    $username_err = "This username is already taken.";
-                } else{*/
-                    $name = trim($_POST["name"]);
-                /*}
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }*/
+  // Prepare an insert statement
+  $sql = "INSERT INTO parkings (name, descr, fee, longitude, latitude, image) VALUES (:name, :descr, :fee, :longitude, :latitude, :image)";
          
-        // Close statement
-      /*  unset($stmt);
-    
-    
-    // Validate password
-     if(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
-    } else{*/
-        $descr = trim($_POST["descr"]);
-        $fee = trim($_POST["fee"]);
-        $longitude=trim($_POST["longitude"]);
-        $latitude=trim($_POST["latitude"]);
-        $image=trim($_POST["image"]);
-    /*}*/
-    
-   /* // Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm password.";     
-    } else{
-        $confirm_password = trim($_POST["confirm_password"]);
-        if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
-        }
-    }*/
-    
-    // Check input errors before inserting in database
-   /* if(empty($confirm_password_err)){*/
-        
-        // Prepare an insert statement
-        $sql = "INSERT INTO parkings (name, descr, fee, longitude, latitude, image) VALUES (:name, :descr, :fee, :longitude, :latitude, :image)";
-         
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
-            $stmt->bindParam(":descr", $param_descr, PDO::PARAM_STR);
-            $stmt->bindParam(":fee", $param_fee, PDO::PARAM_STR);
-            $stmt->bindParam(":longitude", $param_longitude, PDO::PARAM_STR);
-            $stmt->bindParam(":latitude", $param_latitude, PDO::PARAM_STR);
-            $stmt->bindParam(":image", $param_image, PDO::PARAM_STR);
+  if($stmt = $pdo->prepare($sql)){
+       // Bind variables to the prepared statement as parameters
+      $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+      $stmt->bindParam(":descr", $param_descr, PDO::PARAM_STR);
+      $stmt->bindParam(":fee", $param_fee, PDO::PARAM_STR);
+      $stmt->bindParam(":longitude", $param_longitude, PDO::PARAM_STR);
+      $stmt->bindParam(":latitude", $param_latitude, PDO::PARAM_STR);
+      $stmt->bindParam(":image", $param_image, PDO::PARAM_STR);
             
-            // Set parameters
-            $param_name = $name;
-            $param_desc = $desc; 
-            $param_desc = $fee; 
-            $param_desc = $longitude; 
-            $param_desc = $latitude; 
-            $param_desc = $image;
+      // Set parameters
+      $param_name = $name;
+      $param_descr = $descr; 
+      $param_fee = $fee; 
+      $param_longitude = $longitude; 
+      $param_latitude = $latitude; 
+      $param_image = $image;
             
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Redirect to login page
-                header("location: submission.php");
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
+      // Attempt to execute the prepared statement
+      if($stmt->execute()){
+          // Redirect back to submission
+          header("location: submission.php");
+      } 
+      else{
+          echo "Something went wrong. Please try again later.";
+      }
+  }
          
-        // Close statement
-        unset($stmt);
-    
-    
-    // Close connection
-    unset($pdo);
+  // Close statement
+  unset($stmt);
+  // Close connection
+  unset($pdo);
 }
+
 ?>
 
 <!-- php code to send images to the S3 bucket khanm57bucket -->
@@ -172,19 +123,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
     
 
-<p>Enter the required details below: <br> The name of the spot, a description, the location as a pair of latitude, longitude coordinates. <br> Optionally, you can also add an image of the parking spot </p>
+<p>Enter the required details below: <br> The name of the spot, a description, the hourly rate you want to charge, and the location as a pair of latitude, longitude coordinates. <br> Optionally, you can also add an image of the parking spot </p>
 
-<!-- name of the spot, a description, and its location as a pair  of  latitude-longitude  coordinates.The  form  should  also  allow ownersto upload an image for the parking service -->
+<!-- name of the spot, a description, and its location as a pair  of  latitude-longitude  coordinates.The  form  should  also  allow owners to upload an image for the parking service -->
 <form onsubmit="return validateS(this);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
   <input type="text" name="name" placeholder="Name" value="<?php echo $name; ?>" required>
   <br>
   <input type="text" name="descr" class="descr" placeholder="Description" value="<?php echo $descr; ?>" required>
   <br>
+  <!-- added fee that the owner would want to charge -->
    <input type="text" name="fee" class="fee" placeholder="Rate /hour" value="<?php echo $fee; ?>" required>
   <br>
-  <input type="text" name="longitude" placeholder="Longitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" required>
+  <input type="text" name="latitude" placeholder="Latitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $latitude; ?>" required>
+  required>
   <br>
-    <input type="text" name="latitude" placeholder="Latitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $latitude; ?>" required>
+  <input type="text" name="longitude" placeholder="Longitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" 
   <br>
   <input type="file" name="image" accept="image/*" value="<?php echo $image; ?>">
   <br>
