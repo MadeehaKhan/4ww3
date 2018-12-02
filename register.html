@@ -10,13 +10,11 @@
 <body>
 
 <ul class="navigation">
-  <li><a href="index.html">Home</a></li>
+  <li><a href="index.php">Home</a></li>
   <li><a href="search.html">Search</a></li>
-  <li>  <a href="register.html">Register</a></li>
-  <li>  <a href="submission.html">Submit</a></li>
-  <!-- Don't work yet -->
-  <li><a href="search.html">About</a></li>
-
+  <li><a href="register.html">Register</a></li>
+  <li><a href="submission.php">Submit</a></li>
+  <li><a href="acct.php">My Account</a></li>
 </ul>
 
 <div class="header">
