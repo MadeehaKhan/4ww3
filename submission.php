@@ -86,9 +86,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{*/
         $descr = trim($_POST["descr"]);
         $fee = trim($_POST["fee"]);
-        $longlat=(explode(",",$_POST["place"]));
-        $longitude=trim($_POST[$longlat[0]]);
-        $latitude=trim($_POST[$longlat[1]]);
+        $longitude=trim($_POST["longitude"]);
+        $latitude=trim($_POST["latitude"]);
         $image=trim($_POST["image"]);
     /*}*/
     
@@ -183,7 +182,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <br>
    <input type="text" name="fee" class="fee" placeholder="Rate /hour" value="<?php echo $fee; ?>" required>
   <br>
-  <input type="text" name="place" placeholder="Latitude, Longitude" pattern="[0-9]{3,}\.[0-9]+\,[0-9]{3,}\.[0-9]+" value="<?php echo $longlat; ?>" required>
+  <input type="text" name="longitude" placeholder="Longitude" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" required>
+  <br>
+    <input type="text" name="latitude" placeholder="Latitude" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $latitude; ?>" required>
   <br>
   <input type="file" name="image" accept="image/*" value="<?php echo $image; ?>">
   <br>
