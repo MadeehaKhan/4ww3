@@ -105,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
    /* if(empty($confirm_password_err)){*/
         
         // Prepare an insert statement
-        $sql = "INSERT INTO parkings (name, descr, fee, longitude, latitude) VALUES (:name, :descr, :fee, :longitude, :latitude, :image)";
+        $sql = "INSERT INTO parkings (name, descr, fee, longitude, latitude, image) VALUES (:name, :descr, :fee, :longitude, :latitude, :image)";
          
         if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -155,8 +155,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       'region'  => 'ca-central-1',
       'version' => 'latest',
       'credentials' => [
-          'key'    => "AKIAISC7PH64JB42VVDA",
-          'secret' => "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",
+          'key'    => "key",
+          'secret' => "secret",
   ]
     ]);   
 
@@ -182,9 +182,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <br>
    <input type="text" name="fee" class="fee" placeholder="Rate /hour" value="<?php echo $fee; ?>" required>
   <br>
-  <input type="text" name="longitude" placeholder="Longitude" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" required>
+  <input type="text" name="longitude" placeholder="Longitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" required>
   <br>
-    <input type="text" name="latitude" placeholder="Latitude" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $latitude; ?>" required>
+    <input type="text" name="latitude" placeholder="Latitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $latitude; ?>" required>
   <br>
   <input type="file" name="image" accept="image/*" value="<?php echo $image; ?>">
   <br>
