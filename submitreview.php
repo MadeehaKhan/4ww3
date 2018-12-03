@@ -1,4 +1,4 @@
-<!--submission.html-->
+<!--submitreview.php-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +15,7 @@
 //start the session
 session_start();
 
-if ( isset( $_SESSION['id'] ) ) {
+if (isset($_SESSION['id'])) {
     // Grab user data from the database using the user_id
     // Let them access the "logged in only" pages
 } else {
@@ -43,17 +43,52 @@ if ( isset( $_SESSION['id'] ) ) {
 require_once "access.php";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  
+	//ask the user to enter a name for their review
+	//want to create a table with their username, number of stars, and their review verbatim
+	$stars = intval($_POST['Rating']);
+	$name = trim($_POST["name"]);
+  	$descr = trim($_POST["descr"]);
 
+  	// Prepare an insert statement
+  	$sql = "INSERT INTO parkings (name, descr, value) VALUES (:name, :descr, :stars)";
+         
+ 	if($stmt = $pdo->prepare($sql)){
+       // Bind variables to the prepared statement as parameters
+      $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+      $stmt->bindParam(":descr", $param_descr, PDO::PARAM_STR);
+      $stmt->bindParam(":stars", $param_stars, PDO::PARAM_INT);
+
+      // Set parameters
+      $param_name = $name;
+      $param_descr = $descr; 
+      $param_stars = $stars; 
+
+ 	  // Attempt to execute the prepared statement
+      if($stmt->execute()){
+          // Redirect back to submission
+          header("location: submission.php");
+      } 
+      else{
+          echo "Something went wrong. Please try again later.";
+      }
+  }
+         
+  // Close statement
+  unset($stmt);
+  // Close connection
+  unset($pdo);
+}
 ?>
 
 <main>
-  <p> Below, you can submit a review of the parking space __ </p>
+<!-- only required to leave their name and a star rating, not a text review -->
+  <p> Below, you can submit a review of the parking space </p>
 
   <form class="subreview" method="POST" >
-    <input type="text" name="desc" placeholder="Review">
+  	<input type="text" name="name" placeholder="Your name" value="<?php echo $name; ?>" required>
+    <input type="text" class="desc" name="descr" value="<?php echo $descr; ?>" placeholder="Review">
     <br>
-    <select name="Rating">
+    <select name="Rating" required>
       <option value="1">1 star</option>
       <option value="2">2 stars</option>
       <option value="3">3 stars</option>
