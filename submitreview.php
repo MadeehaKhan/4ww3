@@ -28,7 +28,7 @@ if ( isset( $_SESSION['id'] ) ) {
 <ul class="navigation">
   <li><a href="index.php">Home</a></li>
   <li><a href="search.html">Search</a></li>
-  <li><a href="register.html">Register</a></li>
+  <li><a href="register.php">Register</a></li>
   <li><a href="submission.php">Submit</a></li>
   <li><a href="acct.php">My Account</a></li>
 </ul>
