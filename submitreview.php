@@ -43,38 +43,31 @@ if (isset($_SESSION['id'])) {
 require_once "access.php";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-	//ask the user to enter a name for their review
-	//want to create a table with their username, number of stars, and their review verbatim
+
+	//prepare the variables
 	$name = trim($_POST["name"]);
-	$descr = trim($_POST["descr"]);
-	$pid = 1;
-        $value = 1;	
+	$review=trim($_POST["review"]);
 
-  	// Prepare an insert statement
-  	$sql = "INSERT INTO reviews (name, review, pid, value) VALUES (:name, :descr, :pid, :value)";
-         
- 	if($stmt = $pdo->prepare($sql)){
-       	// Bind variables to the prepared statement as parameters
-       	$stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
-       	$stmt->bindParam(":descr", $param_descr, PDO::PARAM_STR);
-       	$stmt->bindParam(":pid", $param_pid, PDO::PARAM_INT);
-       	$stmt->bindParam(":value", $param_value, PDO::PARAM_INT);
+	//prepare sql statement
+	$sql = "INSERT INTO revs (name, review) VALUES (:name, :review)";
 
+	if($stmt = $pdo->prepare($sql)){
+      // Bind variables to the prepared statement as parameters
+      $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+      $stmt->bindParam(":review", $param_review, PDO::PARAM_STR);
 
-      	// Set parameters
-      	$param_name = $name;
-      	$param_descr = $descr;
-      	$param_pid = $pid;
-      	$param_value = $value;
+      // Set parameters
+      $param_name = $name;
+      $param_review = $review;
 
- 	// Attempt to execute the prepared statement
-      	if($stmt->execute()){
+       // Attempt to execute the prepared statement
+      if($stmt->execute()){
           // Redirect back to submission
           header("location: submission.php");
-      	} 
-      	else{
+      } 
+      else{
           echo "Something went wrong. Please try again later.";
-      	}
+      }
   }
          
   // Close statement
@@ -82,6 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   // Close connection
   unset($pdo);
 }
+	
 ?>
 
 <main>
@@ -90,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   <form class="subreview"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" >
   	<input type="text" name="name" placeholder="Your name" value="<?php echo $name; ?>" required>
-    <input type="text" class="desc" name="descr" value="<?php echo $descr; ?>" placeholder="Review">
+    <input type="text" class="desc" name="review" value="<?php echo $review; ?>" placeholder="Review">
     <br>
     <select name="Rating" required>
       <option value="1">1 star</option>
@@ -102,3 +96,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      <br>
   <input type="submit"  value="Submit">
   </form>
+
+  </main>
+  </body>
+  </html>
