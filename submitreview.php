@@ -45,32 +45,36 @@ require_once "access.php";
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	//ask the user to enter a name for their review
 	//want to create a table with their username, number of stars, and their review verbatim
-	$stars = intval($_POST['Rating']);
 	$name = trim($_POST["name"]);
-  	$descr = trim($_POST["descr"]);
+	$descr = trim($_POST["descr"]);
+	$pid = 1;
+        $value = 1;	
 
   	// Prepare an insert statement
-  	$sql = "INSERT INTO parkings (name, descr, value) VALUES (:name, :descr, :stars)";
+  	$sql = "INSERT INTO reviews (name, review, pid, value) VALUES (:name, :descr, :pid, :value)";
          
  	if($stmt = $pdo->prepare($sql)){
-       // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
-      $stmt->bindParam(":descr", $param_descr, PDO::PARAM_STR);
-      $stmt->bindParam(":stars", $param_stars, PDO::PARAM_INT);
+       	// Bind variables to the prepared statement as parameters
+       	$stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+       	$stmt->bindParam(":descr", $param_descr, PDO::PARAM_STR);
+       	$stmt->bindParam(":pid", $param_pid, PDO::PARAM_INT);
+       	$stmt->bindParam(":value", $param_value, PDO::PARAM_INT);
 
-      // Set parameters
-      $param_name = $name;
-      $param_descr = $descr; 
-      $param_stars = $stars; 
 
- 	  // Attempt to execute the prepared statement
-      if($stmt->execute()){
+      	// Set parameters
+      	$param_name = $name;
+      	$param_descr = $descr;
+      	$param_pid = $pid;
+      	$param_value = $value;
+
+ 	// Attempt to execute the prepared statement
+      	if($stmt->execute()){
           // Redirect back to submission
           header("location: submission.php");
-      } 
-      else{
+      	} 
+      	else{
           echo "Something went wrong. Please try again later.";
-      }
+      	}
   }
          
   // Close statement
@@ -84,7 +88,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!-- only required to leave their name and a star rating, not a text review -->
   <p> Below, you can submit a review of the parking space </p>
 
-  <form class="subreview" method="POST" >
+  <form class="subreview"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" >
   	<input type="text" name="name" placeholder="Your name" value="<?php echo $name; ?>" required>
     <input type="text" class="desc" name="descr" value="<?php echo $descr; ?>" placeholder="Review">
     <br>
