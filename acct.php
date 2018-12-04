@@ -7,7 +7,7 @@
 <script src="location.js"></script>
 <meta charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="style.css">
-<title>Home</title>
+<title>My Account</title>
 </head>
 
 <body>
@@ -39,11 +39,11 @@ if ( isset( $_SESSION['id'] ) ) {
 }
 ?>
 
-<h2 style="color:"> You've sucessfully signed in! <\h2>
+<h2 style="color:"> You are signed in! </h2>
 <p> Now you can submit your own parking spaces at <a href="/submission.php">our submit page!</a></p>
 
 
-<button onclick="window.location.href='logout.php'">Log Out of Your Account</button>
+<button class = "button" onclick="window.location.href='logout.php'">Log Out of Your Account</button>
     
 
 </body>

@@ -46,27 +46,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 	//prepare the variables
 	$name = trim($_POST["name"]);
-	$review=trim($_POST["review"]);
+	$review = trim($_POST["review"]);
+	$value = $_POST["Rating"];
+	$lot = 'Lot N';
 
 	//prepare sql statement
-	$sql = "INSERT INTO revs (name, review) VALUES (:name, :review)";
+	$sql = "INSERT INTO reviews (p_id, value, review, name) VALUES (1, :value, :review, :name)";
 
 	if($stmt = $pdo->prepare($sql)){
-      // Bind variables to the prepared statement as parameters
-      $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
-      $stmt->bindParam(":review", $param_review, PDO::PARAM_STR);
+      		// Bind variables to the prepared statement as parameters
+      		$stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+     		$stmt->bindParam(":review", $param_review, PDO::PARAM_STR);
+      		$stmt->bindParam(":value", $param_value, PDO::PARAM_INT);
 
-      // Set parameters
-      $param_name = $name;
-      $param_review = $review;
+      		// Set parameters
+      		$param_name = $name;
+      		$param_review = $review;
+     	 	$param_value = $value;
 
-       // Attempt to execute the prepared statement
-      if($stmt->execute()){
-          // Redirect back to submission
-          header("location: submission.php");
-      } 
-      else{
-          echo "Something went wrong. Please try again later.";
+       		// Attempt to execute the prepared statement
+      		if($stmt->execute()){
+          		// Redirect back to submission
+          		header("location: submission.php");
+      		} 
+      		else {
+          		echo "Something went wrong. Please try again later.";
       }
   }
          
@@ -87,11 +91,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <input type="text" class="desc" name="review" value="<?php echo $review; ?>" placeholder="Review">
     <br>
     <select name="Rating" required>
-      <option value="1">1 star</option>
-      <option value="2">2 stars</option>
-      <option value="3">3 stars</option>
-      <option value="4">4 stars</option>
-      <option value="5">5 stars</option> 
+      <option value=1>1 star</option>
+      <option value=2>2 stars</option>
+      <option value=3>3 stars</option>
+      <option value=4>4 stars</option>
+      <option value=5>5 stars</option> 
     </select>
      <br>
   <input type="submit"  value="Submit">

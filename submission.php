@@ -106,8 +106,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       'region'  => 'ca-central-1',
       'version' => 'latest',
       'credentials' => [
-          'key'    => "key",
-          'secret' => "secret",
+          'key'    => "",
+          'secret' => "",
   ]
     ]);   
 
@@ -135,9 +135,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
    <input type="text" name="fee" class="fee" placeholder="Rate /hour" value="<?php echo $fee; ?>" required>
   <br>
   <input type="text" name="latitude" placeholder="Latitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $latitude; ?>" required>
-  required>
+  
   <br>
-  <input type="text" name="longitude" placeholder="Longitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" 
+  <input type="text" name="longitude" placeholder="Longitude (up to 7 decimals)" pattern="[0-9]{3,}\.[0-9]+\" value="<?php echo $longitude; ?>" required> 
   <br>
   <input type="file" name="image" accept="image/*" value="<?php echo $image; ?>">
   <br>
