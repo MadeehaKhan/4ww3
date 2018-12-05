@@ -28,41 +28,57 @@
 	<h1>PARKY</h1>
 </div>
 
-<!-- php code to get spaces from the database -->
+
+
+<p> Click on the name of the parking lot to see more details </p>
+
+
+<!--table with results of parking-->
+<table style="width:100%">
+  <tr>
+  <!-- headers of columns -->
+    <th>Name of parking</th>
+    <th>Address</th>
+    <th>Rate</th>
+  </tr>
+  <!-- filled in with the results from the SQL query -->
+  <!-- php code to get spaces from the database -->
 <?php
 
 //use access file
 require_once "access.php";
-
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+  try {
  
         //prepare variables
        $name = trim($_GET["name"]);
-       $dist = trim($_GET["dist"]);
+       $dist = $_GET["dist"];
        $price = trim($_GET["price"]);
        $longit = $_GET["longit"];
        $latit = $_GET["latit"];
        $stars = $_GET["Rating"];
 
        //prepare select statement
-      $sql = "SELECT p.longitude, p.latitude,p.id, p.fee, p.name r.value, r.p_id FROM parkings p, reviews r 
+       //need to match the foreign key from parkings to reviews to get the average star review for that space
+          //and need the value of the ratings to compare to user wants
+       //also need the longitude and latitude to compare to the current user coordinates and find distance from that to compare to user given distance
+       //need fee and name to compare to what user wants
+      $sql = "SELECT p. address, p.longitude, p.latitude, p.id, p.fee, p.name r.value, r.p_id FROM parkings p, reviews r 
         WHERE 
-        r.value >= :stars 
-        AND p.fee <= :price 
-        AND p.name == :name
-        AND p.id == r.p_id  
+        p.id == r.p_id 
+        AND p.name == :name 
+        AND p.fee <= :price
+        AND AVG(r.value) >= :stars  
         #need a way to find the distance between two longitude, latitude coordinates to compare it to the max distance the user wants
         AND (111.111 *
          DEGREES(ACOS(LEAST(COS(RADIANS(p.latitude))
          * COS(RADIANS(:latit))
          * COS(RADIANS(p.longitude - :longit ))
          + SIN(RADIANS(p.latitude ))
-         * SIN(RADIANS(:latit)), 1.0))) ) <= :dist "
+         * SIN(RADIANS(:latit)), 1.0))) ) <= :dist"
         
         if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":stars", $param_value, PDO::PARAM_STR);
+            $stmt->bindParam(":stars", $param_value, PDO::PARAM_INT);
             $stmt->bindParam(":price", $param_price, PDO::PARAM_STR);
             $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
             $stmt->bindParam(":latit", $param_latit, PDO::PARAM_STR);
@@ -77,55 +93,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_longit = $longit;
             $param_dist = $dist;
             
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-
-              //have a table with the results
-            }
+            $index=1;
+            while ($row = $stmt->fetch()) {
+            echo "<tr>
+                  <td><a href='info.php?id={$row['id']}'>{$row['p.name']}</a></td>
+                  <td>{$row['p.address']}</td>
+                  <td>{$row['p.fee']}$</td>
+                  </tr>\n"; 
+    $index++;
+  }
         }
   // Close statement
   unset($stmt);
   // Close connection
   unset($pdo);
-}
+  } 
+
+  catch(PDOException $ex) {
+        echo "An Error occured!"; //user friendly message
+        echo $ex->getMessage();
+  }
 
 ?>
-
-<p> Click on the name of the parking lot to see more details </p>
-
-
-<!--table with results of parking-->
-<table style="width:100%">
-  <tr>
-  <!-- headers of columns -->
-    <th>Name of parking</th>
-    <th>Distance</th> 
-    <th>Available spots</th>
-    <th>Rate</th>
-  </tr>
-  <!-- table entries -->
-  <tr>
-    <td><a href="parking.html">Lot N</a></td>
-    <td>1 km</td> 
-    <td>50</td>
-    <td>$6/hr</td>
-  </tr>
-  <tr>
-    <td>Lot C</td>
-    <td>1.5 km</td> 
-    <td>94</td>
-    <td>$14/hr</td>
-  </tr>
-  <tr>
-  	<td>Lot A</td>
-    <td>0.5 km</td> 
-    <td>4</td>
-    <td>$8/hr</td>
-  </tr> 
 </table>
 
 <br>
-<!-- screenshot taken from google maps to show results -->
+<!-- live map to show above results -->
 <div id="resultsMap" style="width:90%;height:450px;"></div>
     
 

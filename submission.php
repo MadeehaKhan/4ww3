@@ -53,10 +53,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   $longitude=trim($_POST["longitude"]);
   $latitude=trim($_POST["latitude"]);
   $image=trim($_POST["image"]);
+  $address=trim($_POST["address"]);
 
         
   // Prepare an insert statement
-  $sql = "INSERT INTO parkings (name, descr, fee, longitude, latitude, image) VALUES (:name, :descr, :fee, :longitude, :latitude, :image)";
+  $sql = "INSERT INTO parkings (name, descr, fee, longitude, latitude, image, address) VALUES (:name, :descr, :fee, :longitude, :latitude, :image, :address)";
          
   if($stmt = $pdo->prepare($sql)){
        // Bind variables to the prepared statement as parameters
@@ -66,6 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $stmt->bindParam(":longitude", $param_longitude, PDO::PARAM_STR);
       $stmt->bindParam(":latitude", $param_latitude, PDO::PARAM_STR);
       $stmt->bindParam(":image", $param_image, PDO::PARAM_STR);
+      $stmt->bindParam(":address", $param_address, PDO::PARAM_STR);
             
       // Set parameters
       $param_name = $name;
@@ -74,6 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $param_longitude = $longitude; 
       $param_latitude = $latitude; 
       $param_image = $image;
+      $param_address = $address;
             
       // Attempt to execute the prepared statement
       if($stmt->execute()){
@@ -123,11 +126,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
     
 
-<p>Enter the required details below: <br> The name of the spot, a description, the hourly rate you want to charge, and the location as a pair of latitude, longitude coordinates. <br> Optionally, you can also add an image of the parking spot </p>
+<p>Enter the required details below: <br> The name and address of the spot, a description, the hourly rate you want to charge, and the location as a pair of latitude, longitude coordinates. <br> Optionally, you can also add an image of the parking spot </p>
 
 <!-- name of the spot, a description, and its location as a pair  of  latitude-longitude  coordinates.The  form  should  also  allow owners to upload an image for the parking service -->
 <form onsubmit="return validateS(this);" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
   <input type="text" name="name" placeholder="Name" value="<?php echo $name; ?>" required>
+  <br>
+  <input type="text" name="address" placeholder="Address" value="<?php echo $address; ?>" required>
   <br>
   <input type="text" name="descr" class="descr" placeholder="Description" value="<?php echo $descr; ?>" required>
   <br>
