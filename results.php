@@ -76,9 +76,9 @@ require_once "access.php";
          * COS(RADIANS(:latit))
          * COS(RADIANS(parkings.longitude - :longit ))
          + SIN(RADIANS(parkings.latitude ))
-         * SIN(RADIANS(:latit)), 1.0))) ) <= :dist"
+         * SIN(RADIANS(:latit)), 1.0))) ) <= :dist";
         
-        if($stmt = $pdo->prepare($sql)){
+        $stmt = $pdo->query($sql); 
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":stars", $param_value, PDO::PARAM_INT);
             $stmt->bindParam(":price", $param_price, PDO::PARAM_STR);
@@ -104,7 +104,7 @@ require_once "access.php";
                   </tr>\n"; 
     $index++;
   }
-        }
+
   // Close statement
   unset($stmt);
   // Close connection
