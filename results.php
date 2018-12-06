@@ -62,7 +62,9 @@ require_once "access.php";
           //and need the value of the ratings to compare to user wants
        //also need the longitude and latitude to compare to the current user coordinates and find distance from that to compare to user given distance
        //need fee and name to compare to what user wants
-      $sql = "SELECT p. address, p.longitude, p.latitude, p.id, p.fee, p.name r.value, r.p_id FROM parkings p, reviews r 
+      $sql = "SELECT *
+      #p. address, p.longitude, p.latitude, p.id, p.fee, p.name r.value, r.p_id 
+             FROM parkings p, reviews r 
         WHERE 
         p.id == r.p_id 
         AND p.name == :name 
