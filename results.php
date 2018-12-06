@@ -52,7 +52,7 @@ require_once "access.php";
         //prepare variables
        $name = trim($_GET["name"]);
        $dist = $_GET["dist"];
-       $price = trim($_GET["price"]);
+       $price = $_GET["price"];
        $longit = $_GET["longit"];
        $latit = $_GET["latit"];
        $stars = $_GET["Rating"];
@@ -64,18 +64,18 @@ require_once "access.php";
        //need fee and name to compare to what user wants
       $sql = "SELECT *
       #p. address, p.longitude, p.latitude, p.id, p.fee, p.name r.value, r.p_id 
-             FROM parkings p, reviews r 
+             FROM parkings, reviews 
         WHERE 
-        p.id == r.p_id 
-        AND p.name == :name 
-        AND p.fee <= :price
-        AND AVG(r.value) >= :stars  
+        parkings.id == reviews.p_id 
+        AND parkings.name == :name 
+        AND parkings.fee <= :price
+        AND AVG(reviews.value) >= :stars  
         #need a way to find the distance between two longitude, latitude coordinates to compare it to the max distance the user wants
         AND (111.111 *
-         DEGREES(ACOS(LEAST(COS(RADIANS(p.latitude))
+         DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))
          * COS(RADIANS(:latit))
-         * COS(RADIANS(p.longitude - :longit ))
-         + SIN(RADIANS(p.latitude ))
+         * COS(RADIANS(parkings.longitude - :longit ))
+         + SIN(RADIANS(parkings.latitude ))
          * SIN(RADIANS(:latit)), 1.0))) ) <= :dist"
         
         if($stmt = $pdo->prepare($sql)){
