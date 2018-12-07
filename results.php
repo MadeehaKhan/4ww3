@@ -66,17 +66,24 @@
 	       FROM parkings
 	       WHERE parkings.name = '$name' 
 		     AND parkings.fee <= $price
-		     AND (111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))* COS(RADIANS($latit))* COS(RADIANS(parkings.longitude - $longit ))+ SIN(RADIANS(parkings.latitude ))* SIN(RADIANS($latit)), 1.0))) ) >= $dist";
+		     
+		     AND (111.111 * DEGREES
+			(ACOS(LEAST(COS(RADIANS(parkings.latitude))
+			* COS(RADIANS($latit))
+			*  COS(RADIANS(parkings.longitude - $longit ))
+		 	+ SIN(RADIANS(parkings.latitude ))
+			* SIN(RADIANS($latit)), 1.0))) ) >= $dist";
+	#	GROUP BY parkings.id,reviews.id";
           
-	      // HAVING AVG(reviews.value) = :stars" ;
+	       # HAVING  AVG(reviews.value) >= $stars
         
 
       $stmt = $pdo->query($sql);
 	    while ($row = $stmt->fetch()) {
             echo "<tr>
-                  <td><a href='info.php?id={$row['id']}'>{$row['name']}</a></td>
+                  <td><a href='parking.php?id={$row['id']}'>{$row['name']}</a></td>
                   <td>{$row['address']}</td>
-                  <td>{$row['fee']}$</td>
+                  <td>$ {$row['fee']}</td>
                   </tr>\n"; 
   }
 	
