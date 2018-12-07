@@ -45,9 +45,9 @@
   <!-- php code to get spaces from the database -->
 <?php
 
-//use access file
-require_once "access.php";
   try {
+    //use access file
+    require_once "access.php";
  
         //prepare variables
        $name = $_GET["name"];
@@ -57,7 +57,7 @@ require_once "access.php";
        $latit = $_GET["latitude"];
        $stars = $_GET["Rating"];
 
-       //prepare select statement
+
        //need to match the foreign key from parkings to reviews to get the average star review for that space
           //and need the value of the ratings to compare to user wants
        //also need the longitude and latitude to compare to the current user coordinates and find distance from that to compare to user given distance
@@ -65,25 +65,28 @@ require_once "access.php";
        $sql = "SELECT * 
 	       FROM parkings, reviews 
 	       WHERE parkings.id = reviews.p_id 
-		HAVING parkings.name = '$name' 
-		AND parkings.fee = $price
-		AND (111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))* COS(RADIANS($latit))* COS(RADIANS(parkings.longitude - $longit ))+ SIN(RADIANS(parkings.latitude ))* SIN(RADIANS($latit)), 1.0))) ) = $dist"; 
+		     HAVING parkings.name = '$name' 
+/*		     AND parkings.fee = $price
+		     AND (111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))* COS(RADIANS($latit))* COS(RADIANS(parkings.longitude - $longit ))+ SIN(RADIANS(parkings.latitude ))* SIN(RADIANS($latit)), 1.0))) ) = $dist*/
+         "; 
 	      // HAVING AVG(reviews.value) = :stars" ;
         
-/*      while ($row = $stmt->fetch()) {
+
+      $stmt = $pdo->query($sql);
+	    echo "into loop";
+	    $index=1;
+	    while ($row = $stmt->fetch()) {
+		    echo $index;
+		    echo "<tr><td>$index</td><td>{$row['name']}</td><td>{$row['address']}</td><td>{$row['fee']}$</td><td>{$row['date']}</td><td id=\"{$row['id']}\"><a href=\"#\" onclick=\"refreshReview({$row['id']})\">Load!</a></td><td><a href='info.php?id={$row['id']}'>See detail</a></td><td><a href='delete.php?id={$row['id']}'>Delete</a></td></tr>\n";
+		    $index++;
+
+    /*      while ($row = $stmt->fetch()) {
             echo "<tr>
                   <td><a href='info.php?id={$row['id']}'>{$row['p.name']}</a></td>
                   <td>{$row['p.address']}</td>
                   <td>{$row['p.fee']}$</td>
                   </tr>\n"; 
-	}*/
-       $stmt = $pdo->query($sql);
-	    echo "into loop";
-	    $index=1;
-	    while ($row = $stmt->fetch()) {
-		    echo $index;
-		echo "<tr><td>$index</td><td>{$row['name']}</td><td>{$row['address']}</td><td>{$row['fee']}$</td><td>{$row['date']}</td><td id=\"{$row['id']}\"><a href=\"#\" onclick=\"refreshReview({$row['id']})\">Load!</a></td><td><a href='info.php?id={$row['id']}'>See detail</a></td><td><a href='delete.php?id={$row['id']}'>Delete</a></td></tr>\n";
-		$index++;
+  }*/
 	}
 
   // Close statement
