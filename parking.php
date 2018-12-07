@@ -15,7 +15,7 @@
 <script type="text/javascript" src="map.js"></script>
 <title>Parking</title>
 </head>
-<body onload="showParking()" >
+<body>
 
 <ul class="navigation">
   <li><a href="index.php">Home</a></li>
@@ -28,7 +28,14 @@
 <div class="header">
 	<img src = "parking1.png"/>
 	<h1>PARKY </h1>
-	<h2> Lot N </h2>
+  <?php
+    require_once "access.php";
+    $id = intval($_GET['id']);
+    $sql="SELECT name FROM parkings WHERE id=$id";
+    $stmt = $pdo->query($sql);
+    echo "<h2>$stmt['name']</h2";
+  ?>
+
 </div>
 
 <!-- details of parking area -->
@@ -40,8 +47,8 @@ Hamilton, ON <br>
 L8N 1E9 </p>
 </div>
 
-<div id="parkingMap" style="width:90%;height:450px;"></div>
-<br>
+<!--<div id="parkingMap" style="width:90%;height:450px;"></div>
+<br>-->
 
 
 <h2> Reviews: </h2>
