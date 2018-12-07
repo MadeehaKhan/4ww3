@@ -63,32 +63,24 @@
        //also need the longitude and latitude to compare to the current user coordinates and find distance from that to compare to user given distance
        //need fee and name to compare to what user wants
        $sql = "SELECT * 
-	       FROM parkings, reviews 
-	       WHERE parkings.id = reviews.p_id 
-		     HAVING parkings.name = '$name' 
-/*		     AND parkings.fee = $price
-		     AND (111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))* COS(RADIANS($latit))* COS(RADIANS(parkings.longitude - $longit ))+ SIN(RADIANS(parkings.latitude ))* SIN(RADIANS($latit)), 1.0))) ) = $dist*/
-         "; 
+	       FROM parkings
+	       WHERE parkings.name = '$name' 
+		     AND parkings.fee <= $price
+		     AND (111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))* COS(RADIANS($latit))* COS(RADIANS(parkings.longitude - $longit ))+ SIN(RADIANS(parkings.latitude ))* SIN(RADIANS($latit)), 1.0))) ) >= $dist";
+          
 	      // HAVING AVG(reviews.value) = :stars" ;
         
 
       $stmt = $pdo->query($sql);
-	    echo "into loop";
-	    $index=1;
 	    while ($row = $stmt->fetch()) {
-		    echo $index;
-		    echo "<tr><td>$index</td><td>{$row['name']}</td><td>{$row['address']}</td><td>{$row['fee']}$</td><td>{$row['date']}</td><td id=\"{$row['id']}\"><a href=\"#\" onclick=\"refreshReview({$row['id']})\">Load!</a></td><td><a href='info.php?id={$row['id']}'>See detail</a></td><td><a href='delete.php?id={$row['id']}'>Delete</a></td></tr>\n";
-		    $index++;
-
-    /*      while ($row = $stmt->fetch()) {
             echo "<tr>
-                  <td><a href='info.php?id={$row['id']}'>{$row['p.name']}</a></td>
-                  <td>{$row['p.address']}</td>
-                  <td>{$row['p.fee']}$</td>
+                  <td><a href='info.php?id={$row['id']}'>{$row['name']}</a></td>
+                  <td>{$row['address']}</td>
+                  <td>{$row['fee']}$</td>
                   </tr>\n"; 
-  }*/
-	}
-
+  }
+	
+  
   // Close statement
   unset($stmt);
   // Close connection
