@@ -13,7 +13,7 @@
 <script type="text/javascript" src="map.js"></script>
 <title>Results</title>
 </head>
-<body onload="show()" >
+<body  >
 
 <ul class="navigation">
   <li><a href="index.php">Home</a></li>
@@ -50,11 +50,11 @@ require_once "access.php";
   try {
  
         //prepare variables
-       $name = trim($_GET["name"]);
+       $name = $_GET["name"];
        $dist = $_GET["dist"];
        $price = $_GET["price"];
-       $longit = $_GET["longit"];
-       $latit = $_GET["latit"];
+       $longit = $_GET["longitude"];
+       $latit = $_GET["latitude"];
        $stars = $_GET["Rating"];
 
        //prepare select statement
@@ -62,48 +62,29 @@ require_once "access.php";
           //and need the value of the ratings to compare to user wants
        //also need the longitude and latitude to compare to the current user coordinates and find distance from that to compare to user given distance
        //need fee and name to compare to what user wants
-      $sql = "SELECT *
-      #p. address, p.longitude, p.latitude, p.id, p.fee, p.name r.value, r.p_id 
-             FROM parkings, reviews 
-        WHERE 
-        parkings.id == reviews.p_id 
-        AND parkings.name == :name 
-        AND parkings.fee <= :price
-        AND AVG(reviews.value) >= :stars  
-        #need a way to find the distance between two longitude, latitude coordinates to compare it to the max distance the user wants
-        AND (111.111 *
-         DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))
-         * COS(RADIANS(:latit))
-         * COS(RADIANS(parkings.longitude - :longit ))
-         + SIN(RADIANS(parkings.latitude ))
-         * SIN(RADIANS(:latit)), 1.0))) ) <= :dist";
+       $sql = "SELECT * 
+	       FROM parkings, reviews 
+	       WHERE parkings.id = reviews.p_id 
+		HAVING parkings.name = '$name' 
+		AND parkings.fee = $price
+		AND (111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(parkings.latitude))* COS(RADIANS($latit))* COS(RADIANS(parkings.longitude - $longit ))+ SIN(RADIANS(parkings.latitude ))* SIN(RADIANS($latit)), 1.0))) ) = $dist"; 
+	      // HAVING AVG(reviews.value) = :stars" ;
         
-        $stmt = $pdo->query($sql); 
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":stars", $param_value, PDO::PARAM_INT);
-            $stmt->bindParam(":price", $param_price, PDO::PARAM_STR);
-            $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
-            $stmt->bindParam(":latit", $param_latit, PDO::PARAM_STR);
-            $stmt->bindParam(":longit", $param_longit, PDO::PARAM_STR);
-            $stmt->bindParam(":dist", $param_dist, PDO::PARAM_STR);
-            
-            // Set parameters
-            $param_name = $name;
-            $param_price = $price;
-            $param_value = $stars;
-            $param_latit = $latit;
-            $param_longit = $longit;
-            $param_dist = $dist;
-            
-            $index=1;
-            while ($row = $stmt->fetch()) {
+/*      while ($row = $stmt->fetch()) {
             echo "<tr>
                   <td><a href='info.php?id={$row['id']}'>{$row['p.name']}</a></td>
                   <td>{$row['p.address']}</td>
                   <td>{$row['p.fee']}$</td>
                   </tr>\n"; 
-    $index++;
-  }
+	}*/
+       $stmt = $pdo->query($sql);
+	    echo "into loop";
+	    $index=1;
+	    while ($row = $stmt->fetch()) {
+		    echo $index;
+		echo "<tr><td>$index</td><td>{$row['name']}</td><td>{$row['address']}</td><td>{$row['fee']}$</td><td>{$row['date']}</td><td id=\"{$row['id']}\"><a href=\"#\" onclick=\"refreshReview({$row['id']})\">Load!</a></td><td><a href='info.php?id={$row['id']}'>See detail</a></td><td><a href='delete.php?id={$row['id']}'>Delete</a></td></tr>\n";
+		$index++;
+	}
 
   // Close statement
   unset($stmt);
@@ -120,8 +101,8 @@ require_once "access.php";
 </table>
 
 <br>
-<!-- live map to show above results -->
-<div id="resultsMap" style="width:90%;height:450px;"></div>
+<!-- live map to show above results 
+<div id="resultsMap" style="width:90%;height:450px;"></div> -->
     
 
 <footer>
