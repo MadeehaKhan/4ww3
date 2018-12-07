@@ -80,10 +80,8 @@ if (isset($_SESSION['id'])) {
     // Redirect them to the login page
     header("Location: index.php");
 }
-?>
 
 
-<?php
 //use access file
 require_once "access.php";
 
@@ -96,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $id=$_GET['id'];
 
     //prepare sql statement
-  if (!($review="")) {
+  if (!(empty($review))) {
     $sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value, :review, :name)";
   }
   else {
@@ -132,7 +130,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
 ?>
 
-<main>
 <!-- only required to leave their name and a star rating, not a text review -->
   <p> Below, you can submit a review of the parking space </p>
 
