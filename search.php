@@ -41,11 +41,11 @@
 <br>
 
 <hr>
-  <input type="text" name="name" class="search" value="" placeholder ="Name of parking spot">
+  <input type="text" name="name" class="search" value="<?php echo $name; ?>" placeholder ="Name of parking spot" required>
   <br>
-  <input type="number" step=0.1 name="dist" class="search" value=5 placeholder ="Distance (km)">
+  <input type="number" step=0.1 name="dist" class="search" value="<?php echo $dist; ?>"  placeholder ="Distance (km)" required>
   <br>
-  <input type="text" name="price" class="search" value=10 placeholder="Price ($/hr)">
+  <input type="text" name="price" class="search" value="<?php echo $price; ?>"  placeholder="Price ($/hr)" required>
  <br>
   <select name="Rating" value=5>
   	<option value=1>1 star</option>
