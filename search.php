@@ -12,21 +12,7 @@
 
 <body>
 
-<!-- navigation bar, has links to the other elements of the site that make sense -->
-<ul class="navigation">
-  <li><a href="index.php">Home</a></li>
-  <li><a href="search.html">Search</a></li>
-  <li><a href="register.php">Register</a></li>
-  <li><a href="submission.php">Submit</a></li>
-  <li><a href="acct.php">My Account</a></li>
-</ul>
-
-<div class="header">
-	<img src = "parking1.png">
-	<h1>PARKY</h1>
-</div>
-
-
+<?php include "header.php" ?>
 
 <p>You can enter the name of a sparking spot, a distance, a price, and a rating to search for a parking space:</p>
 
@@ -41,11 +27,11 @@
 <br>
 
 <hr>
-  <input type="text" name="name" class="search" value="" placeholder ="Name of parking spot">
+  <input type="text" name="name" class="search" value="<?php echo $name; ?>" placeholder ="Name of parking spot" required>
   <br>
-  <input type="number" step=0.1 name="dist" class="search" value=5 placeholder ="Distance (km)">
+  <input type="number" step=0.1 name="dist" class="search" value="<?php echo $dist; ?>" placeholder ="Distance (km)" required>
   <br>
-  <input type="text" name="price" class="search" value=10 placeholder="Price ($/hr)">
+  <input type="text" name="price" class="search" value="<?php echo $price; ?>" placeholder="Price ($/hr)" required>
  <br>
   <select name="Rating" value=5>
   	<option value=1>1 star</option>
@@ -58,11 +44,7 @@
   <input type="submit"  value="Submit">
 </form>
 
-<footer>
-  Posted by: Madeeha Khan<br>
-  Contact information: <a href="mailto:khanm57@mcmaster.ca">
-  khanm57@mcmaster.ca</a>.
-</footer>
+<?php include "end.php" ?>
 
 </body>
 </html>

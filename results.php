@@ -15,18 +15,7 @@
 </head>
 <body  >
 
-<ul class="navigation">
-  <li><a href="index.php">Home</a></li>
-  <li><a href="search.html">Search</a></li>
-  <li><a href="register.php">Register</a></li>
-  <li><a href="submission.php">Submit</a></li>
-  <li><a href="acct.php">My Account</a></li>
-</ul>
-
-<div class="header">
-	<img src = "parking1.png"/>
-	<h1>PARKY</h1>
-</div>
+<?php include "header.php" ?>
 
 
 
@@ -107,11 +96,7 @@
 <div id="resultsMap" style="width:90%;height:450px;"></div> -->
     
 
-<footer>
-  Posted by: Madeeha Khan<br>
-  Contact information: <a href="mailto:khanm57@mcmaster.ca">
-  khanm57@mcmaster.ca</a>.
-</footer>
+<?php include "end.php" ?>
 
 </body>
 </html>
