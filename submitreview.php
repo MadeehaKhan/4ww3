@@ -36,10 +36,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$name = trim($_POST["name"]);
 	$review = trim($_POST["review"]);
 	$value = $_POST["Rating"];
-	$lot = 'Lot N';
+	$id=$_GET['id'];
 
 	//prepare sql statement
-	$sql = "INSERT INTO reviews (p_id, value, review, name) VALUES (1, :value, :review, :name)";
+  if (!($review="")) {
+	$sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value, :review, :name)";
+  }
+  else {
+    $sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value,  :name)";
+  }
 
 	if($stmt = $pdo->prepare($sql)){
       		// Bind variables to the prepared statement as parameters
@@ -55,7 +60,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
        		// Attempt to execute the prepared statement
       		if($stmt->execute()){
           		// Redirect back to submission
-          		header("location: submission.php");
+          		header("location: parking.php?id=$id");
       		} 
       		else {
           		echo "Something went wrong. Please try again later.";

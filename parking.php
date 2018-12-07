@@ -67,6 +67,8 @@
     }
 ?>
 </table>
+<br>
+<button onclick="window.location.href='submitreview.php?id=<?php $_GET['id'] ?>'">Submit A Review! </button>
 
 <?php include "end.php" ?>
 
