@@ -33,7 +33,8 @@
     $id = intval($_GET['id']);
     $sql="SELECT name FROM parkings WHERE id=$id";
     $stmt = $pdo->query($sql);
-    echo "<h2>$stmt['name']</h2";
+    $result= $stmt->fetch();
+    echo "<h2>{$result['name']}</h2>";
   ?>
 
 </div>
@@ -41,10 +42,14 @@
 <!-- details of parking area -->
 <div class="details">
 <h2> Address: </h2>
-<p class="desc"> McMaster University Downtown Centre <br>
-Lot N Westaway Rd <br>
-Hamilton, ON <br>
-L8N 1E9 </p>
+<?php
+     require_once "access.php";
+    $id = intval($_GET['id']);
+    $sql="SELECT address FROM parkings WHERE id=$id";
+    $stmt = $pdo->query($sql);
+    $result= $stmt->fetch();
+    echo "<p class='desc'>{$result['address']}</p>";
+?>
 </div>
 
 <!--<div id="parkingMap" style="width:90%;height:450px;"></div>
@@ -58,39 +63,19 @@ L8N 1E9 </p>
     <th>Rating</th> 
     <th>Comments</th>
   </tr>
-  <tr>
-    <td>Fred Die</td>
-    <td>
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star_border</i> 
-    	<i class="material-icons">star_border</i>
-    </td> 
-    <td>"I parked the Mystery Machine here. I was scared. Overall, pretty good."</td>
-  </tr>
-  <tr>
-    <td>Shaggy Rogers</td>
-    <td>
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i>
-    </td> 
-    <td>"i dont have a car"</td>
-  </tr>
-  <tr>
-    <td>Scoobert Doobert</td>
-    <td>
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star</i> 
-    	<i class="material-icons">star_border</i> 
-    	<i class="material-icons">star_border</i> 
-    	<i class="material-icons">star_border</i>
-    </td> 
-    <td>"Ris is a rearry bad rarking rot rut it's rose to the rood"</td>
-  </tr>
+<?php
+    require_once "access.php";
+    $id = intval($_GET['id']);
+    $sql="SELECT name, value,review FROM reviews WHERE p_id=$id";
+    $stmt = $pdo->query($sql);
+    while ($row = $stmt->fetch()) {
+        echo "<tr>
+        <td>{$row['name']}</td>
+        <td>{$row['value']}</td>
+        <td> {$row['review']}</td>
+        </tr>\n"; 
+    }
+?>
 </table>
 
 <footer>
