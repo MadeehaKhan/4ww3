@@ -82,26 +82,25 @@ if (isset($_SESSION['id'])) {
 }
 
 
-//use access file
-require_once "access.php";
+try {//use access file
+	require_once "access.php";
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+    	//prepare the variables
+    	$name = trim($_POST["name"]);
+    	$review = trim($_POST["review"]);
+    	$value = $_POST["Rating"];
+    	$id=$_GET['id'];
 
-    //prepare the variables
-    $name = trim($_POST["name"]);
-    $review = trim($_POST["review"]);
-    $value = $_POST["Rating"];
-    $id=$_GET['id'];
+    	//prepare sql statement
+  	if (!(empty($review))) {
+    	$sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value, :review, :name)";
+  	}
+  	else {
+   		$sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value,  :name)";
+  	}
 
-    //prepare sql statement
-  if (!(empty($review))) {
-    $sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value, :review, :name)";
-  }
-  else {
-    $sql = "INSERT INTO reviews (p_id, value, review, name) VALUES ($id, :value,  :name)";
-  }
-
-    if($stmt = $pdo->prepare($sql)){
+    //$stmt = $pdo->prepare($sql)
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
             $stmt->bindParam(":review", $param_review, PDO::PARAM_STR);
@@ -113,13 +112,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_value = $value;
 
             // Attempt to execute the prepared statement
-            if($stmt->execute()){
+            $stmt->execute()
                 // Redirect back to submission
                 header("location: parking.php?id=$id");
-            } 
+            /*} 
             else {
                 echo "Something went wrong. Please try again later.";
-      }
+      }*/
   }
          
   // Close statement
@@ -127,6 +126,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   // Close connection
   unset($pdo);
 }
+  catch(PDOException $ex) {
+        echo "An Error occured!"; //user friendly message
+        echo $ex->getMessage();
+  }
     
 ?>
 

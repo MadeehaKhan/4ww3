@@ -1,0 +1,67 @@
+<!--search.html-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<script src="validate.js"></script>
+<script type="text/javascript" src="geolocation.js"></script>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="style.css">
+<title>Search</title>
+</head>
+
+<body>
+
+<!-- navigation bar, has links to the other elements of the site that make sense -->
+<ul class="navigation">
+  <li><a href="index.php">Home</a></li>
+  <li><a href="search.html">Search</a></li>
+  <li><a href="register.php">Register</a></li>
+  <li><a href="submission.php">Submit</a></li>
+  <li><a href="acct.php">My Account</a></li>
+</ul>
+
+<div class="header">
+	<img src = "parking1.png">
+	<h1>PARKY</h1>
+</div>
+
+<p>You can enter the name of a sparking spot, a distance, a price, and a rating to search for a parking space:</p>
+
+<p id="frm"> </p>
+
+<button class="button" id="locateMe" onclick="getLocation()">Where Am I?</button>
+<input type="text" name="longitude" id="geoLongitude" placeholder="Longitude">
+<input type="text" name="latitude" id="geoLatitude" placeholder="Latitude">
+<br>
+
+<!--form to search for parking spaces-->
+<form onsubmit="return validateSearch(this);" method="post">
+<hr>
+<!-- add a button to tell where the user is and then the stuff below 
+	want a script that will say onClick run position script and locate the user -->
+  <input type="text" name="nm" class="search" placeholder ="Name of parking spot">
+  <br>
+  <input type="text" name="dist" class="search" placeholder ="Distance (km)">
+  <br>
+  <input type="text" name="price" class="search" placeholder="Price ($/hr)">
+ <br>
+  <select name="Rating">
+  	<option value="1">1 star</option>
+  	<option value="2">2 stars</option>
+  	<option value="3">3 stars</option>
+  	<option value="4">4 stars</option>
+  	<option value="5">5 stars</option>
+  </select>
+ <br>
+  <input type="submit"  value="Submit">
+</form>
+
+<footer>
+  Posted by: Madeeha Khan<br>
+  Contact information: <a href="mailto:khanm57@mcmaster.ca">
+  khanm57@mcmaster.ca</a>.
+</footer>
+
+</body>
+</html>
